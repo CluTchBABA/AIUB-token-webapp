@@ -52,4 +52,16 @@ class Users
         if ($user) return true;
         else return false;
     }
+
+    public function get_unassigned_teacher(): false|array|null
+    {
+        $stmt = $this->conn->prepare("
+        SELECT u.id,u.uni_id,u.fullname
+        FROM users u
+        LEFT JOIN teacher_assignment ta ON u.id=ta.user_id
+        WHERE u.role='teacher'AND ta.user_id IS NULL
+        ");
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
 }
