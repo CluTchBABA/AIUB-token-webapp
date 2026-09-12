@@ -11,7 +11,7 @@ if(!isset($_SESSION['id'])){
 }
 
 if($_SESSION['role'] != 'supervisor'){
-  header ("Location : ./" .$_SESSION['role'] . "_dashboard.php");
+  header('Location: ./supervisor_dashboard.php');
   exit();
 }
 
