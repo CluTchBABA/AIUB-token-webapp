@@ -35,6 +35,62 @@ class Users
         return false;
     }
 
+    public function verify_login_admin($uni_id, $password): bool
+    {
+        $stmt = $this->conn->prepare("SELECT password FROM users WHERE uni_id = ? AND `role` = ?");
+        $role = "admin";
+        $stmt->bind_param("ss", $uni_id, $role);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return ($password == $row['password']);
+        }
+        return false;
+    }
+
+    public function verify_login_supervisor($uni_id, $password): bool
+    {
+        $stmt = $this->conn->prepare("SELECT password FROM users WHERE uni_id = ? AND `role` = ?");
+        $role = "supervisor";
+        $stmt->bind_param("ss", $uni_id, $role);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return ($password == $row['password']);
+        }
+        return false;
+    }
+
+    public function verify_login_teacher($uni_id, $password): bool
+    {
+        $stmt = $this->conn->prepare("SELECT password FROM users WHERE uni_id = ? AND `role` = ?");
+        $role = "teacher";
+        $stmt->bind_param("ss", $uni_id, $role);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return ($password == $row['password']);
+        }
+        return false;
+    }
+
+    public function verify_login_student($uni_id, $password): bool
+    {
+        $stmt = $this->conn->prepare("SELECT password FROM users WHERE uni_id = ? AND `role` = ?");
+        $role = "student";
+        $stmt->bind_param("ss", $uni_id, $role);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return ($password == $row['password']);
+        }
+        return false;
+    }
+
     public function get_user($uni_id): false|array|null
     {
         $stmt = $this->conn->prepare("SELECT * FROM users WHERE uni_id = ?");

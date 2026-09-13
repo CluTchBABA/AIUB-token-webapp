@@ -5,7 +5,7 @@ session_start();
 function verifyLogin($uni_id, $password): bool
 {
     $user = new Users();
-    return $user->verify_login($uni_id, $password);
+    return $user->verify_login_supervisor($uni_id, $password);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -29,11 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: ../view/" . $user['role'] . "_dashboard.php");
     } else {
         $_SESSION['error_message'] = "Invalid id or password";
-        header("Location: ../view/login.php");
+        header("Location: ../index.php");
     }
     exit();
 } else {
-    header("Location: ../view/login.php");
+    header("Location: ../index.php");
 }
 
 ?>
