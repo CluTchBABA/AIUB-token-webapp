@@ -18,29 +18,28 @@ if (isset($_SESSION['id'])) {
 <head>
     <title>Login</title>
     <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="../asset/teacher_login_validation.js"></script>
 </head>
 <body>
-<h1>Token Management system </h1>
+    <h1>Token Management system </h1>
 
-<?php if (isset($_SESSION['error_message'])): ?>
-    <script>
-        alert("<?php echo $_SESSION['error_message']; ?>");
-    </script>
-    <?php unset($_SESSION['error_message']); ?>
-<?php endif; ?>
-<h2>Login to your account</h2>
-<form action="../controller/teacher-login-handler.php" method="post">
-    ID: <input type="text" id="id" name="id"><br>
-    <br>
-    Password: <input type="password" id="password" name="password"><br>
-    <br>
-    <input type="submit" value="Login">
-    <br><br>
-    <p class="register-text">Don't have an account?
-        <a href="create-account.php">Create an account</a>
-    </p>
-</form>
-
-
+    <?php if (isset($_SESSION['error_message'])): ?>
+        <script>
+            alert("<?php echo $_SESSION['error_message']; ?>");
+        </script>
+        <?php unset($_SESSION['error_message']); ?>
+    <?php endif; ?>
+    <h2>Login to your account</h2>
+    <form onsubmit="return validateDets()" action="../controller/teacher-login-handler.php" method="post">
+        ID: <input type="text" id="id" name="id"><br>
+        <br>
+        Password: <input type="password" id="password" name="password"><br>
+        <br>
+        <input type="submit" value="Login">
+        <br><br>
+        <p class="register-text">Don't have an account?
+            <a href="create-account.php">Create an account</a>
+        </p>
+    </form>
 </body>
 </html>
