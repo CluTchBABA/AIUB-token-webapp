@@ -90,5 +90,9 @@ class Tokens
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
 
-
+    public function invalidate_token(int $token_id) {
+        $stmt = $this->conn->prepare("DELETE FROM token WHERE token_id = ?");
+        $stmt->bind_param("i", $token_id);
+        return $stmt->execute();
+    }
 }

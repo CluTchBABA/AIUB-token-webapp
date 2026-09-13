@@ -3,7 +3,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     include_once "../model/Tokens.php";
     $token_model = new Tokens();
     $current_token = $_POST['current_token'];
-    $s = $token_model->update_token_status($current_token, 'Completed');
+    if (isset($_POST['invalidate'])) {
+        $s = $token_model->invalidate_token($current_token);
+        if ($s !== TRUE) {
+            $_SESSION['post_failure'] = "Failed to invalidate token. Please try again.";
+        }
+    } else {
+        $s = $token_model->update_token_status($current_token, 'Completed');
+        if ($s !== TRUE) {
+            $_SESSION['post_failure'] = "Failed to mark the token complete. Please try again.";
+        }
+    }
     header("Location: teacher_dashboard.php");
     exit();
 }
@@ -16,6 +26,7 @@ if (!isset($_SESSION['id'])) {
     header("Location: login.php");
     exit();
 }
+
 
 if ($_SESSION['role'] != 'teacher') {
     header('Location: ./' . $_SESSION['role'] . '_dashboard.php');
@@ -48,6 +59,12 @@ if (!$associated_room_id) {
 ?>
 <br><br><br>
 <div>
+    <?php
+    if (isset($_SESSION['post_failure'])) {
+        echo "<p class='error'>" . $_SESSION['post_failure'] . '</p>';
+        unset($_SESSION['post_failure']);
+    }
+    ?>
     <fieldset class="display-span">
         <legend>Now serving</legend>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -60,7 +77,9 @@ if (!$associated_room_id) {
 
                     echo "<p>Currently serving: #T-" . $currently_being_served . "</p>";
                     echo '<input name="current_token" type="hidden" value="' . $currently_being_served . '">';
-                    echo '<input type = "submit" value = "Mark completed" >';
+                    echo '<input type = "submit" name="complete" value = "Mark completed" >';
+                    echo '<br><br>';
+                    echo '<input type = "submit" name="invalidate" value = "Invalidate token" >';
                 } else {
                     echo " <p>This room is all caught up!</p> ";
                 }
