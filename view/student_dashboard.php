@@ -30,13 +30,13 @@ if ($_SESSION['role'] != 'student') {
     <?php unset($_SESSION['error_message']); ?>
 <?php endif; ?>
 
-<a href="token_view.php">
+<a href="../controller/token_view.php">
     <h3>Apply for Token</h3>
 </a>
 
-<a href="queue-status.php">
-    <h3>Monitor Queue</h3>
-</a>
+<!-- <a href="queue-status.php">-->
+<!--    <h3>Monitor Queue</h3>-->
+<!--</a> -->
 
 <a href="../controller/report_handler.php">
     <h3>Report Absence</h3>

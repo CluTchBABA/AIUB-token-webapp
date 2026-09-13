@@ -51,7 +51,7 @@ class Tokens
 
     public function get_waiting_token_for_user(int $user_id): false|array|null
     {
-        $stmt = $this->conn->prepare("SELECT token_id FROM token WHERE user_id = ? AND status = 'Waiting'");
+        $stmt = $this->conn->prepare("SELECT token_id, room_id FROM token WHERE user_id = ? AND status = 'Waiting'");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
@@ -72,5 +72,23 @@ class Tokens
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
+
+    public function get_tokens_before(int $token_id): array
+    {
+        $stmt = $this->conn->prepare("SELECT t1.token_id, u.fullname FROM token t1, token t2, users u WHERE t2.token_id = ? AND t1.room_id = t2.room_id AND t1.user_id = u.id AND t1.status = 'Waiting' AND t1.token_id < t2.token_id ORDER BY t1.token_id ASC");
+        $stmt->bind_param("i", $token_id);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
+
+    public function get_tokens_after(int $token_id): array
+    {
+        $stmt = $this->conn->prepare("SELECT t1.token_id, u.fullname FROM token t1, token t2, users u WHERE t2.token_id = ? AND t1.room_id = t2.room_id AND t1.user_id = u.id AND t1.status = 'Waiting' AND t1.token_id > t2.token_id ORDER BY t1.token_id ASC");
+        $stmt->bind_param("i", $token_id);
+        $stmt->execute();
+        return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    }
+
 
 }

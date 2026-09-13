@@ -72,15 +72,15 @@ class Rooms
 
     PUBLIC function assign_teacher_to_room(int $teacher_id, int $room_id): bool
     {
-        $check=$this->conn->prepare(@SELECT user_id FROM teacher_assignment WHERE user_id=?");
+        $check=$this->conn->prepare("SELECT user_id FROM teacher_assignment WHERE user_id=?");
         $check->bind_param("i",$teacher_id);
-        "check->execute();
-        if("check->get_result()->fetch_assoc()){
+        $check->execute();
+        if($check->get_result()->fetch_assoc()){
         return false;
         }
 
         $stmt =$this->conn->prepare("INSERT INTO teacher_assignment(user_id,room_id) VALUES (?,?)");
-        "stmt->bind_param("ii", "teacher_id.$room_id);
+        $stmt->bind_param("ii", $teacher_id, $room_id);
         return $stmt->execute();
 
      }

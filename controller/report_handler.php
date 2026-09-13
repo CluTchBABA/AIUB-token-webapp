@@ -43,3 +43,4 @@ if ($updated) {
 
 header("Location: ../view/student_dashboard.php");
 exit();
+?>
