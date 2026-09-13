@@ -12,7 +12,7 @@ if ($_SESSION['role'] != 'student') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['update_profile'])) {
-    header("Location: ../view/update_profile.php");
+    header("Location: ../view/student_update_profile.php");
     exit();
 }
 
@@ -23,6 +23,11 @@ $cpassword = $_POST['cpassword'] ?? '';
 
 if ($fullname === '' || $password === '' || $cpassword === '') {
     $_SESSION['error_message'] = "All fields are required.";
+    header("Location: ../view/student_update_profile.php");
+    exit();
+}
+if (strlen($password) < 3) {
+    $_SESSION['error_message'] = "Password must be at least 3 characters long.";
     header("Location: ../view/student_update_profile.php");
     exit();
 }
