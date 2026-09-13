@@ -27,14 +27,14 @@ input[type="submit"] {
     width: 50%;
 }
 
-th {
+.app-table th{
     border: 2px solid gray;
     background-color: #003366;
     color: white;
     padding: 6px 10px;
 }
 
-.app-table td {
+.app-table td{
     border: 2px solid #003366;
     padding: 6px 10px;
 }

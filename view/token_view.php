@@ -35,7 +35,7 @@ unset($_SESSION['error_message']);
 ?>
 <html lang="en">
 <head>
-    <title>Token View</title>
+<!--    <title>Token View</title>-->
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
