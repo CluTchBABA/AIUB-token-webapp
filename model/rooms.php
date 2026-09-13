@@ -60,7 +60,7 @@ class Rooms
     public function get_teachers_in_room(int $room_id): false|array|null
     {
         $stmt = $this->conn->prepare("
-            SELECT u.fullname, u.uni_id
+            SELECT  u.id,u.fullname, u.uni_id
             FROM teacher_assignment ta
             JOIN users u ON ta.user_id = u.id
             WHERE ta.room_id = ?
