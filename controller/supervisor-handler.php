@@ -8,9 +8,9 @@ if(!isset($_SESSION['id'])){
   exit();
 }
 
-if(($_SESSION['role'] ?? '') !== 'supervisor'){
-  header("Location:../view/login.php");
-  exit();
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'supervisor') {
+    header("Location: ../view/login.php");
+    exit();
 }
 
 if($_SERVER['REQUEST_METHOD'] !=='POST' || !isset($_POST['action'])){
@@ -50,11 +50,11 @@ $ok= $room_model->assign_teacher_to_rooom($teacher_id, $room_id);
 }
 
 if($action ==='request_load_balance'){
-  $note = trim($_POST['note'] ??'');
-               if($note ===''){
-               $_SESSION['error_message'] ="Please provide a reason for load balancing.";
-               header("Location:../view/supervisor_dashboard.php");
-  exit();
+$note = isset($_POST['note']) ? trim($_POST['note']) : '';
+ if ($note === '') {
+   $_SESSION['error_message'] = "Please provide a reason for load balancing.";
+    header("Location: ../view/supervisor_dashboard.php");
+    exit();
 }
 
 // Simple storage: append to a text file (no extra table yet, keeps style simple)
@@ -68,7 +68,7 @@ exit();
 }
 
 if($action ==='report_problem'){
-  $problem =trim($_POST['problem'] ?? '');
+ $problem = isset($_POST['problem']) ? trim($_POST['problem']) : '';
   if($problem==''){
     $_SESSION['status_message'] = "Problem report sent to admin.";
         header("Location: ../view/supervisor_dashboard.php");
@@ -89,8 +89,9 @@ $log =date ('Y-m-d H:i:s')."| Supervisor ID:" .$_SESSION['id']."(". $_SESSION['n
   "| Problem:"$problem .PHP_EOL;
 file_put_contents(__DIR__."/../supervisor_requests.log","log,FILE_APPEND);
 
-$_SESSION['status_message'] ="Problem report to admin.";
-exit();
+$_SESSION['status_message'] = "Problem report sent to admin.";
+    header("Location: ../view/supervisor_dashboard.php");
+    exit();
 }
 header("Location:../view/supervisor_dashboard.php");
 exit();
