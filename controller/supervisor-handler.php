@@ -9,7 +9,7 @@ if(!isset($_SESSION['id'])){
 }
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'supervisor') {
-    header("Location: ../view/login.php");
+    header("Location: ../view/supervisor_login.php");
     exit();
 }
 
