@@ -21,12 +21,13 @@ $user = $user_model->get_user($_SESSION['uni_id']);
 <html>
 <head>
     <title>Update Profile</title>
+    <script src="../asset/student_update_profile_validation.js"></script>
     <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
     <h1>Update Your Profile</h1>
     <p><?php echo htmlspecialchars($message); ?></p>
-    <form action="../controller/update_profile_handler.php" method="POST">
+    <form onsubmit="return validateProfileUpdate()" action="../controller/update_profile_handler.php" method="POST">
         <table class="app-table">
             <tr>
                 <th colspan="2">Update your information</th>

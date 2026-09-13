@@ -31,12 +31,9 @@ if (isset($_SESSION['id'])) {
 <?php endif; ?>
 <h2>Login to your account</h2>
 <form onsubmit="return validateStudentLogin()" action="../controller/student-login-handler.php" method="post">
-    ID: <input type="text" id="id" name="id"><br>
-    <br>
-    Password: <input type="password" id="password" name="password"><br>
-    <br>
-    <input type="submit" value="Login">
-    <br><br>
+    ID: <input type="text" id="id" name="id"><br><br>
+    Password: <input type="password" id="password" name="password"><br><br>
+    <input type="submit" value="Login"><br><br>
     <p class="register-text">Don't have an account?
         <a href="create-account.php">Create an account</a>
     </p>
