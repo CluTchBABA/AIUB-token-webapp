@@ -69,7 +69,13 @@ class Rooms
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-
+    public function removeTeacherFromRoom($teacher_id, $room_id) {
+	    $sql = "DELETE FROM teacher_assignment WHERE user_id = ? AND room_id = ?";
+	    $prepared_statement = $this->conn->prepare($sql);
+	    $prepared_statement->bind_param('ii', $teacher_id, $room_id);
+	    return $prepared_statement->execute();
+      }
+    
     public function assign_teacher_to_room(int $teacher_id, int $room_id): bool
     {
         $check = $this->conn->prepare("SELECT user_id FROM teacher_assignment WHERE user_id = ?");
