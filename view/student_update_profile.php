@@ -15,7 +15,7 @@ $message = $_SESSION['error_message'] ?? '';
 unset($_SESSION['error_message']);
 
 $user_model = new Users();
-$user = $user_model->get_user((int)$_SESSION['id']);
+$user = $user_model->get_user($_SESSION['uni_id']);
 
 ?>
 <html>
@@ -33,27 +33,18 @@ $user = $user_model->get_user((int)$_SESSION['id']);
             </tr>
             <tr>
                 <td><label for="fullname">Full Name</label></td>
-                <td>
-                    <input type="text" id="fullname" name="fullname"
-                           value="<?php echo htmlspecialchars($user['fullname'] ?? ''); ?>" required>
-                </td>
+                <td><input type="text" id="fullname" name="fullname" value="<?php echo htmlspecialchars($user['fullname'] ?? ''); ?>" required></td>
             </tr>
             <tr>
                 <td><label for="password">Password</label></td>
-                <td>
-                    <input type="password" id="password" name="password" required>
-                </td>
+                <td><input type="password" id="password" name="password" required></td>
             </tr>
             <tr>
-                <td><label for="confirm_password">Confirm New Password</label></td>
-                <td>
-                    <input type="password" id="confirm_password" name="confirm_password" required>
-                </td>
+                <td><label for="cpassword">Confirm New Password</label></td>
+                <td><input type="password" id="cpassword" name="cpassword" required></td>
             </tr>
             <tr>
-                <td colspan="2">
-                    <input type="submit" name="update_profile" value="Save Changes">
-                </td>
+                <td colspan="2"><input type="submit" name="update_profile" value="Save Changes"></td>
             </tr>
         </table>
     </form>

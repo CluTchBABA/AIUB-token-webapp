@@ -16,25 +16,24 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['update_profile'])) {
     exit();
 }
 
-$id               = (int)$_SESSION['id'];
-$fullname         = trim($_POST['fullname'] ?? '');
-$password         = $_POST['password'] ?? '';
-$confirm_password = $_POST['confirm_password'] ?? '';
+$id = (int)$_SESSION['id'];
+$fullname = trim($_POST['fullname'] ?? '');
+$password = $_POST['password'] ?? '';
+$cpassword = $_POST['cpassword'] ?? '';
 
-if ($fullname === '' || $password === '' || $confirm_password === '') {
+if ($fullname === '' || $password === '' || $cpassword === '') {
     $_SESSION['error_message'] = "All fields are required.";
     header("Location: ../view/student_update_profile.php");
     exit();
 }
-if ($password !== $confirm_password) {
+if ($password !== $cpassword) {
     $_SESSION['error_message'] = "Passwords do not match.";
     header("Location: ../view/student_update_profile.php");
     exit();
 }
 
 $user_model = new Users();
-$hashed = password_hash($password, PASSWORD_DEFAULT);
-$row = $user_model->update_user($id, $fullname, $hashed);
+$row = $user_model->update_user($id, $fullname, $password);
 
 if ($row) {
     $_SESSION['name'] = $fullname;

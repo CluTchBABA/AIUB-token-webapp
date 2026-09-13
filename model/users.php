@@ -22,10 +22,10 @@ class Users
         return false;
     }
 
-    public function update_user(int $id, string $fullname, string $hashed_password): bool
+    public function update_user(int $id, string $fullname, string $password): bool
     {
         $stmt = $this->conn->prepare("UPDATE users SET fullname = ?, password = ? WHERE id = ?");
-        $stmt->bind_param("ssi", $fullname, $hashed_password, $id);
+        $stmt->bind_param("ssi", $fullname, $password, $id);
         return $stmt->execute();
     }
 
