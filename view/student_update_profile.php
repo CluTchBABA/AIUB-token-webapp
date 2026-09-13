@@ -24,7 +24,7 @@ $user = $user_model->get_user($_SESSION['uni_id']);
     <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
-    <h1>Update Profile</h1>
+    <h1>Update Your Profile</h1>
     <p><?php echo htmlspecialchars($message); ?></p>
     <form action="../controller/update_profile_handler.php" method="POST">
         <table class="app-table">
@@ -33,7 +33,7 @@ $user = $user_model->get_user($_SESSION['uni_id']);
             </tr>
             <tr>
                 <td><label for="fullname">Full Name</label></td>
-                <td><input type="text" id="fullname" name="fullname" value="<?php echo htmlspecialchars($user['fullname'] ?? ''); ?>" required></td>
+                <td><input type="text" id="fullname" name="fullname" value="<?php echo htmlspecialchars($user['fullname']); ?>" required></td>
             </tr>
             <tr>
                 <td><label for="password">Password</label></td>
