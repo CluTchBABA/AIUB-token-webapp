@@ -1,9 +1,13 @@
 <?php
 session_start();
+
+if (isset($_SESSION['role'])) {
+    header('Location ./view/' . $_SESSION['role'] . '_dashboard');
+    exit();
+}
 ?>
 
 <html>
- <!-- header("Location: ./view/login.php"); -->
     <head>
         <title>Login Center</title>
         <link rel="stylesheet" type="text/css" href="../style.css">

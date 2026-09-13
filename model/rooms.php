@@ -60,7 +60,7 @@ class Rooms
     public function get_teachers_in_room(int $room_id): false|array|null
     {
         $stmt = $this->conn->prepare("
-            SELECT u.fullname, u.uni_id
+            SELECT  u.id,u.fullname, u.uni_id
             FROM teacher_assignment ta
             JOIN users u ON ta.user_id = u.id
             WHERE ta.room_id = ?
@@ -69,7 +69,13 @@ class Rooms
         $stmt->execute();
         return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
     }
-
+    public function removeTeacherFromRoom($teacher_id, $room_id) {
+	    $sql = "DELETE FROM teacher_assignment WHERE user_id = ? AND room_id = ?";
+	    $prepared_statement = $this->conn->prepare($sql);
+	    $prepared_statement->bind_param('ii', $teacher_id, $room_id);
+	    return $prepared_statement->execute();
+      }
+    
     public function assign_teacher_to_room(int $teacher_id, int $room_id): bool
     {
         $check = $this->conn->prepare("SELECT user_id FROM teacher_assignment WHERE user_id = ?");

@@ -11,14 +11,17 @@ function validateDets() {
     let errors = 0
 
     if (name === "") {
+        errors++;
         document.getElementById('err_name').innerText = "Name cannot be empty";
     } else {
         document.getElementById('err_name').innerText = "";
     }
 
     if (id === "") {
+        errors++;
         document.getElementById('err_id').innerText = "ID cannot be empty.";
     } else if (!(student_account_pattern.test(id) || teacher_account_pattern.test(id))) {
+        errors++;
         document.getElementById('err_id').innerText = "Invalid ID format";
     } else {
         document.getElementById('err_id').innerText = "";
@@ -27,11 +30,15 @@ function validateDets() {
     if (pass.length === 0) {
         errors++;
         document.getElementById('err_pass').innerText = "Password can't be empty";
+    } else if (pass.length < 3) {
+        errors++;
+        document.getElementById('err_pass').innerText = "Password must be at least 3 characters.";       
     } else {
         document.getElementById('err_pass').innerText = "";
     }
 
     if (pass !== cpass) {
+        errors++;
         document.getElementById('err_cpass').innerText = "Passwords do not match";
     } else {
         document.getElementById('err_cpass').innerText = "";
