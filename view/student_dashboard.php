@@ -8,8 +8,12 @@ if ($_SESSION['role'] != 'student') {
     header('Location: ./' . $_SESSION['role'] . '_dashboard.php');
     exit();
 }
+if (isset($_POST['view_profile'])) {
+    header("Location: ../view/student_view_profile.php");
+    exit();
+}
 if (isset($_POST['update_profile'])) {
-    header("Location: update_profile.php");
+    header("Location: student_update_profile.php");
     exit();
 }
 ?>
@@ -35,23 +39,7 @@ if (isset($_POST['update_profile'])) {
     <?php unset($_SESSION['error_message']); ?>
 <?php endif; ?>
 
-<?php if (isset($_POST['view_profile'])): ?>
 
-    <table class="app-table">
-        <tr>
-            <th colspan="2">Identity verification</th>
-        </tr>
-        <tr>
-            <td>Student Name: </td>
-            <td><?php echo htmlspecialchars($_SESSION['name']); ?></td>
-        </tr>
-        <tr>
-            <td>Student ID: </td>
-            <td><?php echo htmlspecialchars($_SESSION['uni_id']); ?></td>
-        </tr>
-    </table>
-
-<?php endif; ?>
 <a href="../view/token_view.php">
     <h3>Generate my token</h3>
 </a>
