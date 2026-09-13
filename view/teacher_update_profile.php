@@ -6,7 +6,7 @@ if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
     exit();
 }
-if ($_SESSION['role'] != 'student') {
+if ($_SESSION['role'] != 'teacher') {
     header('Location: ./' . $_SESSION['role'] . '_dashboard.php');
     exit();
 }
@@ -48,7 +48,7 @@ $user = $user_model->get_user($_SESSION['uni_id']);
             </tr>
         </table>
     </form>
-    <form action="../view/student_dashboard.php" method="post">
+    <form action="./teacher_dashboard.php" method="post">
         <input type="submit" value="Back to Dashboard">
     </form>
 </body>
