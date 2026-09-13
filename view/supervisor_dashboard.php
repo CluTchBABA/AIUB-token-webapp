@@ -11,7 +11,7 @@ if(!isset($_SESSION['id'])){
 }
 
 if($_SESSION['role'] != 'supervisor'){
-  header('Location: ./supervisor_dashboard.php');
+  header('Location: ./' . $_SESSION['role'] . '_dashboard.php');
   exit();
 }
 
@@ -92,16 +92,15 @@ if (!$my_room) {
     <div class="display-span" style="width:400px;">
     <?php
     $assigned=$room_model->get_teachers_in_room((int)$my_room['id']);
-  if($assigned = $room_model->get_teacher_in_room((int)$my_room['id']);
-    if ($assigned) {
-       echo $tg->generate_table(
-         $assigned,
-         "Teachers currently assigned to your room:",
-         ['Teacher Name', 'University ID']
-         );
-     }else{
-       echo"<p>NO tecahers assigned to your room yet.</p>";
-       }
+  if ($assigned) {
+    echo $tg->generate_table(
+        $assigned,
+        "Teachers currently assigned to your room:",
+        array('Teacher Name', 'University ID')
+    );
+} else {
+    echo "<p>No teachers assigned to your room yet.</p>";
+}
        ?>
        </div>
        <br><br>
