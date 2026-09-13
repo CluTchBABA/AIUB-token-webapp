@@ -2,11 +2,11 @@
 session_start();
 include_once "../model/rooms.php";
 include_once "../model/users.php";
-include_once "../model/tokens.php";
-include_once "../utils/table.generator.php";
+include_once "../model/Tokens.php";
+include_once "../utils/table_generator.php";
 
 if(!isset($_SESSION['id'])){
-  header("Location: login.php");
+  header("Location: supervisor_login.php");
   exit();
 }
 
@@ -72,7 +72,7 @@ if (!$my_room) {
     <select name="teacher_id" required>
     <option value="">--Select--</option>
       <?php
-  $teachers =$user_model->get_unassigned_teachers();
+  $teachers =$user_model->get_unassigned_teacher();
   if($teachers){
     foreach ($teachers as $t) {
       echo '<option value="' .(int)$t['id'].'">'.htmlspecialchars($t['fullname']) . ' (' . htmlspecialchars($t['uni_id']) . ')</option>';
