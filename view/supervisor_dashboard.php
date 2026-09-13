@@ -3,7 +3,7 @@ session_start();
 include_once "../model/rooms.php";
 include_once "../model/users.php";
 include_once "../model/tokens.php";
-include_once "../untils/table.generator.php";
+include_once "../utils/table.generator.php";
 
 if(!isset($_SESSION['id'])){
   header("Location: login.php");
