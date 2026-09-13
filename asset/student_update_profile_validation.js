@@ -1,8 +1,7 @@
-alert("JS file loaded!");
 function validateProfileUpdate() {
-    var name = document.getElementById("fullname").value;
-    var password = document.getElementById("password").value;
-    var cpassword = document.getElementById("cpassword").value;
+    var name = document.getElementById("fullname").value.trim();
+    var password = document.getElementById("password").value.trim();
+    var cpassword = document.getElementById("cpassword").value.trim();
 
     if (name === ""||password === ""||cpassword === "") {
         alert("Please fill in all fields.");
