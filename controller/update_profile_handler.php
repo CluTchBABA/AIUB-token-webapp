@@ -3,11 +3,11 @@ session_start();
 include_once "../model/Users.php";
 
 if (!isset($_SESSION['id'])) {
-    header("Location: ../view/login.php");
+    header("Location: ../index.php");
     exit();
 }
 if ($_SESSION['role'] != 'student') {
-    header("Location: ../view/login.php");
+    header("Location: ../index.php");
     exit();
 }
 
