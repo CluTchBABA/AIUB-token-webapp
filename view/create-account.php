@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <html lang="en">
 <head>
     <title>Create account</title>
-    <script src="../account_creation/validation_helper.js"></script>
+    <script src="../asset/account_creation_validation.js"></script>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
