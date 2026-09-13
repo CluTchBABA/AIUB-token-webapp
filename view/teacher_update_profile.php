@@ -6,7 +6,7 @@ if (!isset($_SESSION['id'])) {
     header("Location: ../index.php");
     exit();
 }
-if ($_SESSION['role'] != 'student') {
+if ($_SESSION['role'] != 'teacher') {
     header('Location: ./' . $_SESSION['role'] . '_dashboard.php');
     exit();
 }
@@ -22,11 +22,12 @@ $user = $user_model->get_user($_SESSION['uni_id']);
 <head>
     <title>Update Profile</title>
     <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="../asset/teacher_update_profile_validation.js"></script>
 </head>
 <body>
     <h1>Update Your Profile</h1>
     <p><?php echo htmlspecialchars($message); ?></p>
-    <form onsubmit="return validateDets()" action="../controller/student_update_profile_handler.php" method="POST">
+    <form onsubmit="return  validateProfileUpdate()" action="../controller/teacher_update_profile_handler.php" method="POST">
         <table class="app-table">
             <tr>
                 <th colspan="2">Update your information</th>
@@ -48,7 +49,7 @@ $user = $user_model->get_user($_SESSION['uni_id']);
             </tr>
         </table>
     </form>
-    <form action="../view/student_dashboard.php" method="post">
+    <form action="./teacher_dashboard.php" method="post">
         <input type="submit" value="Back to Dashboard">
     </form>
 </body>

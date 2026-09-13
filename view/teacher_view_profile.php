@@ -1,17 +1,17 @@
 <?php
 session_start();
 if (!isset($_SESSION['id'])) {
-    header("Location: .php");
+    header("Location: ../index.php");
     exit();
 }
-if ($_SESSION['role'] != 'student') {
+if ($_SESSION['role'] != 'teacher') {
     header('Location: ./' . $_SESSION['role'] . '_dashboard.php');
     exit();
 }
 ?>
 <html>
 <head>
-    <title>Student's Profile</title>
+    <title>Teacher's Profile</title>
     <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
@@ -21,19 +21,20 @@ if ($_SESSION['role'] != 'student') {
             <th colspan="2">Identity verification</th>
         </tr>
         <tr>
-            <td>Student Name </td>
+            <td>Teacher Name </td>
             <td><?php echo htmlspecialchars($_SESSION['name']); ?></td>
         </tr>
         <tr>
-            <td>Student ID </td>
+            <td>Teacher ID </td>
             <td><?php echo htmlspecialchars($_SESSION['uni_id']); ?></td>
         </tr>
     </table>
     <br>
-    <form action="../view/student_dashboard.php" method="post">
+    <form action="../view/teacher_dashboard.php" method="post">
         <input type="submit" value="Back to Dashboard">
     </form>
 </body>
 </html>
+
 
 

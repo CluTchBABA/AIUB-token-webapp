@@ -35,78 +35,89 @@ if ($_SESSION['role'] != 'teacher') {
 ?>
 <!DOCTYPE html>
 <html lang='en'>
-<head>
-    <title>Teacher's Dashboard</title>
-    <link rel="stylesheet" type="text/css" href="../style.css">
-</head>
-<body>
-<?php
-$room_model = new Rooms();
-$associated_room_id = $room_model->get_room_associated_with_teacher($_SESSION['id'])['room_id'];
-if (!$associated_room_id) {
-    echo "<p>You are not assigned to any room yet. Please contact the admin.</p>";
-} else {
-    $room_details = $room_model->get_all_rooms();
-    $tc = $room_model->get_number_of_tokens_in_each_room();
-    $tg = new TableGenerator();
-    echo $tg->generate_table(
-            $tc,
-            "Students being served at different rooms:",
-            ['Room Name', 'Supervisor Name', 'Number of students waiting']
-    );
-
-}
-?>
-<br><br><br>
-<div>
+    <head>
+        <title>Teacher's Dashboard</title>
+        <link rel="stylesheet" type="text/css" href="../style.css">
+    </head>
+    <body>
     <?php
-    if (isset($_SESSION['post_failure'])) {
-        echo "<p class='error'>" . $_SESSION['post_failure'] . '</p>';
-        unset($_SESSION['post_failure']);
+    $room_model = new Rooms();
+    $associated_room_id = $room_model->get_room_associated_with_teacher($_SESSION['id'])['room_id'];
+    if (!$associated_room_id) {
+        echo "<p>You are not assigned to any room yet. Please contact the admin.</p>";
+    } else {
+        $room_details = $room_model->get_all_rooms();
+        $tc = $room_model->get_number_of_tokens_in_each_room();
+        $tg = new TableGenerator();
+        echo $tg->generate_table(
+                $tc,
+                "Students being served at different rooms:",
+                ['Room Name', 'Supervisor Name', 'Number of students waiting']
+        );
+
     }
     ?>
-    <fieldset class="display-span">
-        <legend>Now serving</legend>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <?php
-            if ($associated_room_id) {
-                $token_model = new Tokens();
-                $currently_being_served = $token_model->currently_being_served($associated_room_id);
-                if ($currently_being_served != null) {
-                    $currently_being_served = $currently_being_served['token_id'];
-
-                    echo "<p>Currently serving: #T-" . $currently_being_served . "</p>";
-                    echo '<input name="current_token" type="hidden" value="' . $currently_being_served . '">';
-                    echo '<input type = "submit" name="complete" value = "Mark completed" >';
-                    echo '<br><br>';
-                    echo '<input type = "submit" name="invalidate" value = "Invalidate token" >';
-                } else {
-                    echo " <p>This room is all caught up!</p> ";
-                }
-            }
-            ?>
-        </form>
-    </fieldset>
-
-    <div class="display-span">
+    <br><br><br>
+    <div>
         <?php
-        if ($associated_room_id) {
-            $token_list = $token_model->teacher_view_tokens($associated_room_id);
-            if ($token_list) {
-                echo $tg->generate_queue_table(
-                        $token_list,
-                        "Students waiting in your room:",
-                        ['Token', 'Student Name']
-                );
-            }
-        } else {
-            echo "<p>You are not assigned to any room yet. Please contact the admin.</p>";
+        if (isset($_SESSION['post_failure'])) {
+            echo "<p class='error'>" . $_SESSION['post_failure'] . '</p>';
+            unset($_SESSION['post_failure']);
         }
         ?>
+        <fieldset class="display-span">
+            <legend>Now serving</legend>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+                <?php
+                if ($associated_room_id) {
+                    $token_model = new Tokens();
+                    $currently_being_served = $token_model->currently_being_served($associated_room_id);
+                    if ($currently_being_served != null) {
+                        $currently_being_served = $currently_being_served['token_id'];
+
+                        echo "<p>Currently serving: #T-" . $currently_being_served . "</p>";
+                        echo '<input name="current_token" type="hidden" value="' . $currently_being_served . '">';
+                        echo '<input type = "submit" name="complete" value = "Mark completed" >';
+                        echo '<br><br>';
+                        echo '<input type = "submit" name="invalidate" value = "Invalidate token" >';
+                    } else {
+                        echo " <p>This room is all caught up!</p> ";
+                    }
+                }
+                ?>
+            </form>
+        </fieldset>
+
+        <div class="display-span">
+            <?php
+            if ($associated_room_id) {
+                $token_list = $token_model->teacher_view_tokens($associated_room_id);
+                if ($token_list) {
+                    echo $tg->generate_queue_table(
+                            $token_list,
+                            "Students waiting in your room:",
+                            ['Token', 'Student Name']
+                    );
+                }
+            } else {
+                echo "<p>You are not assigned to any room yet. Please contact the admin.</p>";
+            }
+            ?>
+        </div>
+        <br><br>
+        <form action="logout.php" method="post">
+            <input type="submit" value="Logout">
+        </form>
     </div>
-    <br><br>
-    <form action="logout.php" method="post">
-        <input type="submit" value="Logout">
-    </form>
-</div>
-</body>
+
+    <div class="display-span">
+        <form action="teacher_view_profile.php" method="get">
+            <input type="submit" value="View profile">
+        </form>
+
+        <form action="./teacher_update_profile.php" method="get">
+            <input type="submit" value="Update profile">
+        </form>
+    </div>
+    </body>
+</html>
