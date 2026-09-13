@@ -17,6 +17,7 @@ if (isset($_SESSION['id'])) {
 <html lang="en">
 <head>
     <title>Login</title>
+    <script src="../asset/student_login_validation.js"></script>
     <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
@@ -29,7 +30,7 @@ if (isset($_SESSION['id'])) {
     <?php unset($_SESSION['error_message']); ?>
 <?php endif; ?>
 <h2>Login to your account</h2>
-<form action="../controller/student-login-handler.php" method="post">
+<form onsubmit="return validateStudentLogin()" action="../controller/student-login-handler.php" method="post">
     ID: <input type="text" id="id" name="id"><br>
     <br>
     Password: <input type="password" id="password" name="password"><br>
