@@ -63,29 +63,33 @@ if (!$my_room) {
 <br><br>
 
  <!--Assign Teacher to Room-->
-  <fieldset class="display-span" style="width: 320px;">
-  <legend>Assign Teacher to My Room</legend>
-  <form action ="../controller/supervisor-handler.php" method="post">
-    <input type="hidden" name="action" value="assign_teacher">
-    <input type="hidden" name="room_id" value="<?php echo (int)$my_room['id'];?>">
-  Select Teacher:
-    <select name="teacher_id" required>
-    <option value="">--Select--</option>
-      <?php
-  $teachers =$user_model->get_unassigned_teacher();
-  if($teachers){
-    foreach ($teachers as $t) {
-      echo '<option value="' .(int)$t['id'].'">'.htmlspecialchars($t['fullname']) . ' (' . htmlspecialchars($t['uni_id']) . ')</option>';
-    }
-  }
-    ?>
-
-    </select>
-    <br><br>
-    <input type="submit" value="Assign Teacher">
-    </form>
-    </fieldset>
-
+ <fieldset class='display-span' style='width: 100%;'>
+	<legend>Assign Teacher to My Room</legend>
+	<?php
+	$teachers = $user->getUnassignedTeacher();
+	if ($teachers) {
+		?>
+		<form action='../controller/supervisor-handler.php' method='post'>
+			<input type='hidden' name='action' value='assign_teacher'>
+			<input type='hidden' name='room_id' value='<?php echo (int) $myRoom['id']; ?>'>
+			Select Teacher:
+			<select name='teacher_id' required>
+				<option value=''>--Select--</option>
+				<?php foreach ($teachers as $t): ?>
+					<option value='<?php echo (int) $t['id']; ?>'>
+						<?php echo htmlspecialchars($t['fullname']) . ' (' . htmlspecialchars($t['uni_id']) . ')'; ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+			<br><br>
+			<input type='submit' value='Assign Teacher'>
+		</form>
+		<?php
+	} else {
+		echo '<p>No unassigned teachers available. Create a teacher account or wait for one to be freed up.</p>';
+	}
+	?>
+</fieldset>
     <br><br>
 
     <!---Currently assigned teachers in my room--->
@@ -106,7 +110,7 @@ if (!$my_room) {
        <br><br>
 
        <!--Request / Handle Load Balancing -->
-<fieldset class="display-span" style="width: 320px;">
+<fieldset class="display-span" style='width: 100%;">
     <legend>Request Load Balancing</legend>
     <form action="../controller/supervisor-handler.php" method="post">
         <input type="hidden" name="action" value="request_load_balance">
@@ -120,7 +124,7 @@ if (!$my_room) {
          <br><br>
 
          <!---Report Problem to Admin----->
-         <fieldset class="display-span" style="width: 320px;">
+         <fieldset class="display-span" style='width: 100%;">
          <legend>Report Problem to Admin </legend>
          <form action ="../controller/supervisor-handler.php" method="post">
          <input type="hidden" name="action" value="report_problem">
