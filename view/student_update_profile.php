@@ -1,6 +1,64 @@
 <?php
 session_start();
+include_once "../model/Users.php";
 
+if (!isset($_SESSION['id'])) {
+    header("Location: login.php");
+    exit();
+}
+if ($_SESSION['role'] != 'student') {
+    header('Location: ./' . $_SESSION['role'] . '_dashboard.php');
+    exit();
+}
+
+$message = $_SESSION['error_message'] ?? '';
+unset($_SESSION['error_message']);
+
+$user_model = new Users();
+$user = $user_model->get_user((int)$_SESSION['id']);
 
 ?>
-
+<html>
+<head>
+    <title>Update Profile</title>
+    <link rel="stylesheet" type="text/css" href="../style.css">
+</head>
+<body>
+    <h1>Update Profile</h1>
+    <p><?php echo htmlspecialchars($message); ?></p>
+    <form action="../controller/update_profile_handler.php" method="POST">
+        <table class="app-table">
+            <tr>
+                <th colspan="2">Update your information</th>
+            </tr>
+            <tr>
+                <td><label for="fullname">Full Name</label></td>
+                <td>
+                    <input type="text" id="fullname" name="fullname"
+                           value="<?php echo htmlspecialchars($user['fullname'] ?? ''); ?>" required>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="password">Password</label></td>
+                <td>
+                    <input type="password" id="password" name="password" required>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="confirm_password">Confirm New Password</label></td>
+                <td>
+                    <input type="password" id="confirm_password" name="confirm_password" required>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" name="update_profile" value="Save Changes">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <form action="../view/student_dashboard.php" method="post">
+        <input type="submit" value="Back to Dashboard">
+    </form>
+</body>
+</html>

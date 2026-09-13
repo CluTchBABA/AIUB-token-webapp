@@ -22,6 +22,13 @@ class Users
         return false;
     }
 
+    public function update_user(int $id, string $fullname, string $hashed_password): bool
+    {
+        $stmt = $this->conn->prepare("UPDATE users SET fullname = ?, password = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $fullname, $hashed_password, $id);
+        return $stmt->execute();
+    }
+
     public function verify_login($uni_id, $password): bool
     {
         $stmt = $this->conn->prepare("SELECT password FROM users WHERE uni_id = ?");

@@ -15,7 +15,7 @@ if ($_SESSION['role'] != 'student') {
     <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
-    <h1>Student's Profile</h1>
+    <h1> <?php echo htmlspecialchars($_SESSION['name']); ?>'s Profile</h1>
     <table class="app-table">
         <tr>
             <th colspan="2">Identity verification</th>
@@ -29,6 +29,10 @@ if ($_SESSION['role'] != 'student') {
             <td><?php echo htmlspecialchars($_SESSION['uni_id']); ?></td>
         </tr>
     </table>
+    <br>
+    <form action="../view/student_dashboard.php" method="post">
+        <input type="submit" value="Back to Dashboard">
+    </form>
 </body>
 </html>
 
