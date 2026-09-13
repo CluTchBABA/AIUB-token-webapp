@@ -2,7 +2,7 @@
     color: red;
 }
 
-input[type="submit"] {
+input[type="submit"], .decorated-button {
     background-color: #003366;
     color: white;
     padding: 8px 16px;

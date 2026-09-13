@@ -85,5 +85,9 @@ if (!$associated_room_id) {
         }
         ?>
     </div>
+    <br><br>
+    <form action="logout.php" method="post">
+        <input type="submit" value="Logout">
+    </form>
 </div>
 </body>
