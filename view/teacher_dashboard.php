@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 include_once "../model/rooms.php";
 include_once "../model/Tokens.php";
+include_once "../model/users.php";
 include_once "../utils/table_generator.php";
 session_start();
 
@@ -41,6 +42,10 @@ if ($_SESSION['role'] != 'teacher') {
     </head>
     <body>
     <?php
+    $user_model = new Users();
+    $user = $user_model->get_user($_SESSION['uni_id']);
+    echo "<h2> Hi, " . $user['fullname'] . '</h2>';
+
     $room_model = new Rooms();
     $associated_room_id = $room_model->get_room_associated_with_teacher($_SESSION['id'])['room_id'];
     if (!$associated_room_id) {
@@ -64,6 +69,7 @@ if ($_SESSION['role'] != 'teacher') {
             echo "<p class='error'>" . $_SESSION['post_failure'] . '</p>';
             unset($_SESSION['post_failure']);
         }
+
         ?>
         <fieldset class="display-span">
             <legend>Now serving</legend>
