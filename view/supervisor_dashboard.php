@@ -2,7 +2,6 @@
 session_start();
 include_once "../model/rooms.php";
 include_once "../model/users.php";
-include_once "../model/Tokens.php";
 include_once "../utils/table_generator.php";
 
 if(!isset($_SESSION['id'])){
@@ -17,7 +16,6 @@ if($_SESSION['role'] != 'supervisor'){
 
 $room_model = new Rooms();
 $user_model = new Users();
-$token_model = new Tokens();
 $tg = new TableGenerator();
 
 $my_room = $room_model ->get_room_by_supervisor((int)$_SESSION['id']);
