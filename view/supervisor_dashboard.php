@@ -48,7 +48,7 @@ if (!$my_room) {
 } else {
     echo "<p>Your room: <strong>" . htmlspecialchars($my_room['name']) . "</strong> (Capacity: " . (int)$my_room['capacity'] . ", Current load: " . (int)$my_room['current_load'] . ")</p>";
 
-    // Show load across rooms (for load balancing awareness)
+    // each class waiting students
     $tc = $room_model->get_number_of_tokens_in_each_room();
     if ($tc) {
         echo $tg->generate_table(
