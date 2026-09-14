@@ -63,15 +63,15 @@ if (!$my_room) {
 <br><br>
 
  <!--Assign Teacher to Room-->
- <fieldset class='display-span' style='width: 100%;'>
+ <fieldset class="display-span" style="width: 100%;">
 	<legend>Assign Teacher to My Room</legend>
 	<?php
-	$teachers = $user->getUnassignedTeacher();
+	$teachers = $user_model->get_unassigned_teacher();
 	if ($teachers) {
 		?>
 		<form action='../controller/supervisor-handler.php' method='post'>
 			<input type='hidden' name='action' value='assign_teacher'>
-			<input type='hidden' name='room_id' value='<?php echo (int) $myRoom['id']; ?>'>
+			<input type='hidden' name='room_id' value='<?php echo (int) $my_room['id']; ?>'>
 			Select Teacher:
 			<select name='teacher_id' required>
 				<option value=''>--Select--</option>
