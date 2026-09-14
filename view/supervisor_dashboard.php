@@ -2,7 +2,6 @@
 session_start();
 include_once "../model/rooms.php";
 include_once "../model/users.php";
-include_once "../model/Tokens.php";
 include_once "../utils/table_generator.php";
 
 if(!isset($_SESSION['id'])){
@@ -17,7 +16,6 @@ if($_SESSION['role'] != 'supervisor'){
 
 $room_model = new Rooms();
 $user_model = new Users();
-$token_model = new Tokens();
 $tg = new TableGenerator();
 
 $my_room = $room_model ->get_room_by_supervisor((int)$_SESSION['id']);
@@ -50,7 +48,7 @@ if (!$my_room) {
 } else {
     echo "<p>Your room: <strong>" . htmlspecialchars($my_room['name']) . "</strong> (Capacity: " . (int)$my_room['capacity'] . ", Current load: " . (int)$my_room['current_load'] . ")</p>";
 
-    // Show load across rooms (for load balancing awareness)
+    // each class waiting students
     $tc = $room_model->get_number_of_tokens_in_each_room();
     if ($tc) {
         echo $tg->generate_table(
@@ -63,15 +61,15 @@ if (!$my_room) {
 <br><br>
 
  <!--Assign Teacher to Room-->
- <fieldset class='display-span' style='width: 100%;'>
+ <fieldset class="display-span" style="width: 100%;">
 	<legend>Assign Teacher to My Room</legend>
 	<?php
-	$teachers = $user->getUnassignedTeacher();
+	$teachers = $user_model->get_unassigned_teacher();
 	if ($teachers) {
 		?>
 		<form action='../controller/supervisor-handler.php' method='post'>
 			<input type='hidden' name='action' value='assign_teacher'>
-			<input type='hidden' name='room_id' value='<?php echo (int) $myRoom['id']; ?>'>
+			<input type='hidden' name='room_id' value='<?php echo (int) $my_room['id']; ?>'>
 			Select Teacher:
 			<select name='teacher_id' required>
 				<option value=''>--Select--</option>
