@@ -83,4 +83,62 @@ class Rooms
         $stmt->bind_param("ii", $teacher_id, $room_id);
         return $stmt->execute();
     }
+    // ========== ADD THESE METHODS INSIDE class Rooms ==========
+
+public function create_room(string $name, int $capacity, int $supervisor_id): bool
+{
+    // Check if supervisor is already assigned to another room
+    $check = $this->conn->prepare("SELECT id FROM rooms WHERE supervisor_id = ?");
+    $check->bind_param("i", $supervisor_id);
+    $check->execute();
+    if ($check->get_result()->fetch_assoc()) {
+        return false; // Supervisor already has a room
+    }
+
+    $stmt = $this->conn->prepare("INSERT INTO rooms (name, capacity, current_load, supervisor_id) VALUES (?, ?, 0, ?)");
+    $stmt->bind_param("sii", $name, $capacity, $supervisor_id);
+    return $stmt->execute();
+}
+
+public function update_room(int $id, string $name, int $capacity, int $supervisor_id): bool
+{
+    $stmt = $this->conn->prepare("UPDATE rooms SET name = ?, capacity = ?, supervisor_id = ? WHERE id = ?");
+    $stmt->bind_param("siii", $name, $capacity, $supervisor_id, $id);
+    return $stmt->execute();
+}
+
+public function delete_room(int $id): bool
+{
+    // First check if room has waiting tokens
+    $check = $this->conn->prepare("SELECT token_id FROM token WHERE room_id = ? AND status = 'Waiting'");
+    $check->bind_param("i", $id);
+    $check->execute();
+    if ($check->get_result()->fetch_assoc()) {
+        return false; // Cannot delete room with active tokens
+    }
+
+    $stmt = $this->conn->prepare("DELETE FROM rooms WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    return $stmt->execute();
+}
+
+public function get_room_by_id(int $id): false|array|null
+{
+    $stmt = $this->conn->prepare("SELECT * FROM rooms WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+public function get_all_rooms_with_supervisor(): false|array|null
+{
+    $stmt = $this->conn->prepare("
+        SELECT r.*, u.fullname AS supervisor_name, u.uni_id AS supervisor_uni_id
+        FROM rooms r
+        LEFT JOIN users u ON r.supervisor_id = u.id
+        ORDER BY r.id
+    ");
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
 }
