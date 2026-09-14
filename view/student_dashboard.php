@@ -17,17 +17,14 @@ if (isset($_POST['update_profile'])) {
     exit();
 }
 ?>
-<!DOCTYPE html>
-<html lang='en'>
+
+<html>
 <head>
-    <meta charset='utf-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Student's Dashboard</title>
     <link rel="stylesheet" type="text/css" href="../style.css">
 </head>
 <body>
 <h1>Hello, <?php echo $_SESSION['name'] ?></h1>
-
 
 <?php if (isset($_SESSION['status_message'])): ?>
     <p><?php echo htmlspecialchars($_SESSION['status_message']); ?></p>
@@ -39,17 +36,14 @@ if (isset($_POST['update_profile'])) {
     <?php unset($_SESSION['error_message']); ?>
 <?php endif; ?>
 
-
 <a href="../view/token_view.php">
     <h3>Generate my token</h3>
 </a>
-
-
 <a href="../controller/report_handler.php">
     <h3>Report Absence</h3>
 </a>
 <form action="" method="post">
-    <button type="submit" name="view_profile" value="1">View Profile</button>
+    <button type="submit" name="view_profile">View Profile</button>
     <button type="submit" name="update_profile">Update Profile</button>
 </form>
 
